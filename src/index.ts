@@ -55,6 +55,19 @@ const resolvers = {
       data.games.push(game);
       return game;
     },
+    updateGame(_, args) {
+      data.games = data.games.map((g) => {
+        if (g.id === args.id) {
+          return {
+            ...g,
+            ...args.edits,
+          };
+        }
+        return g;
+      });
+
+      return data.games.find((g) => g.id === args.id);
+    },
   },
 };
 //server setup
