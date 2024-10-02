@@ -42,6 +42,20 @@ const resolvers = {
       return data.games.find((g) => g.id === parent.game_id);
     },
   },
+  Mutation: {
+    deleteGame(_, args) {
+      data.games = data.games.filter((g) => g.id !== args.id);
+      return data.games;
+    },
+    addGame(_, args) {
+      let game = {
+        ...args.game,
+        id: Math.floor(Math.random() * 10000),
+      };
+      data.games.push(game);
+      return game;
+    },
+  },
 };
 //server setup
 const server = new ApolloServer({
