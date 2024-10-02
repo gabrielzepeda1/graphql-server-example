@@ -2,7 +2,6 @@ import { ApolloServer } from "@apollo/server";
 import { startStandaloneServer } from "@apollo/server/standalone";
 import { typeDefs } from "./schema";
 import data from "./data";
-import { doTypesOverlap } from "graphql";
 
 const resolvers = {
   Query: {
@@ -23,6 +22,24 @@ const resolvers = {
     },
     review(_: any, args: { id: string }) {
       return data.reviews.find((review) => review.id === args.id);
+    },
+  },
+  Game: {
+    reviews(parent) {
+      return data.reviews.filter((r) => r.game_id === parent.id);
+    },
+  },
+  Author: {
+    reviews(parent) {
+      return data.reviews.filter((r) => r.author_id === parent.id);
+    },
+  },
+  Review: {
+    author(parent) {
+      return data.authors.find((a) => a.id === parent.author_id);
+    },
+    game(parent) {
+      return data.games.find((g) => g.id === parent.game_id);
     },
   },
 };
